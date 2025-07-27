@@ -13,7 +13,7 @@ locations:
     type: "room"
     coordinates: [2, 5]
     description: "A natural cave entrance with damp stone walls and the sound of dripping water echoing from deeper chambers"
-    connections: ["corridor_1"]
+    connections: ["crystal_workshop"]
     npc:
       type: "sage"
       name: "Keeper Aldric"

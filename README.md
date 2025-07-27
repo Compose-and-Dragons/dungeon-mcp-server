@@ -172,7 +172,7 @@ Get the current status and information of the player.
 ```
 
 ### 6. display_dungeon_map
-
+> To be implemented
 Display an ASCII map of the entire dungeon showing rooms, corridors, and the player's current position.
 
 **Parameters:** None
@@ -185,31 +185,7 @@ Display an ASCII map of the entire dungeon showing rooms, corridors, and the pla
 }
 ```
 
-**Sample Output:**
-```
-=== Crystal Caverns Map ===
-Size: 6x6
 
-     0  1  2  3  4  5 
- 0        [P]         
- 1        [T] - [T]   
- 2         -     -    
- 3        [N] - [M] - 
- 4                 [M]
- 5                 [X]
-
-Legend:
-[P] - Player Position
-[E] - Entrance
-[X] - Exit
-[M] - Monster
-[N] - NPC
-[T] - Treasure
-[R] - Room
- -  - Corridor
-
-Player: Hero at entrance_cave [2, 0]
-```
 
 ## Game Mechanics
 

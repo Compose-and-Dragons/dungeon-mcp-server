@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 
 	"github.com/mark3labs/mcp-go/mcp"
 
@@ -35,6 +36,8 @@ func SayHelloHandler(ctx context.Context, request mcp.CallToolRequest) (*mcp.Cal
 func GetRoomDetailsHandler(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	args := request.GetArguments()
 
+	log.Printf("🟢 GetRoomDetailsHandler called with arguments: %v", args)
+
 	roomNameValue, exists := args["room_name"]
 	if !exists {
 		return mcp.NewToolResultText("Missing required parameter: room_name"), nil
@@ -64,6 +67,8 @@ func GetRoomDetailsHandler(ctx context.Context, request mcp.CallToolRequest) (*m
 
 func GetRoomDetailsByCoordinatesHandler(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	args := request.GetArguments()
+
+	log.Printf("🟢 GetRoomDetailsByCoordinatesHandler called with arguments: %v", args)
 
 	xValue, exists := args["x"]
 	if !exists {
@@ -107,6 +112,8 @@ func GetRoomDetailsByCoordinatesHandler(ctx context.Context, request mcp.CallToo
 
 func MoveToRoomHandler(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	args := request.GetArguments()
+
+	log.Printf("🟢 MoveToRoomHandler called with arguments: %v", args)
 
 	targetRoomValue, exists := args["target_room"]
 	if !exists {
@@ -162,6 +169,7 @@ func MoveToRoomHandler(ctx context.Context, request mcp.CallToolRequest) (*mcp.C
 }
 
 func GetPlayerStatusHandler(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+	log.Printf("🟢 GetPlayerStatusHandler called")
 	if CurrentPlayer == nil {
 		return mcp.NewToolResultText("Player not initialized"), nil
 	}
@@ -175,6 +183,7 @@ func GetPlayerStatusHandler(ctx context.Context, request mcp.CallToolRequest) (*
 }
 
 func DisplayDungeonMapHandler(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+	log.Printf("🟢 DisplayDungeonMapHandler called")
 	if CrystalCavernsDungeon == nil {
 		return mcp.NewToolResultText("Dungeon data not loaded"), nil
 	}

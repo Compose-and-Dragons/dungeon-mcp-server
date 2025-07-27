@@ -2,92 +2,107 @@ package game
 
 import (
 	"fmt"
-	"strings"
-
 	"mcp-dungeon/models"
 )
 
-func GenerateDungeonMap(dungeon *models.Dungeon, player *models.Player) string {
-	if dungeon == nil || player == nil {
-		return "Dungeon or player data not available"
-	}
-
-	width := dungeon.Size.Width
-	height := dungeon.Size.Height
-	mapGrid := make([][]string, height)
-	for i := range mapGrid {
-		mapGrid[i] = make([]string, width)
-		for j := range mapGrid[i] {
-			mapGrid[i][j] = "   "
+func GenerateVisualMap(dungeon *models.Dungeon, player *models.Player) string {
+	grid := make([][]string, dungeon.Size.Height)
+	for i := range grid {
+		grid[i] = make([]string, dungeon.Size.Width)
+		for j := range grid[i] {
+			grid[i][j] = " . "
 		}
 	}
 
 	for _, location := range dungeon.Locations {
 		x, y := location.Coordinates[0], location.Coordinates[1]
-		mapY := height - 1 - y
-		mapX := x
-
-		var symbol string
-		switch location.Type {
-		case "room":
-			if location.ID == dungeon.EntranceRoom {
+		if x >= 0 && x < dungeon.Size.Width && y >= 0 && y < dungeon.Size.Height {
+			symbol := " . "
+			switch {
+			case location.ID == dungeon.EntranceRoom:
 				symbol = "[E]"
-			} else if location.ID == dungeon.ExitRoom {
+			case location.ID == dungeon.ExitRoom:
 				symbol = "[X]"
-			} else if location.Monster != nil {
-				symbol = "[M]"
-			} else if location.NPC != nil {
-				symbol = "[N]"
-			} else if location.Treasure != nil {
-				symbol = "[T]"
-			} else {
+			case location.Type == "room":
 				symbol = "[R]"
+			case location.Type == "corridor":
+				symbol = "[C]"
 			}
-		case "corridor":
-			symbol = " - "
-		default:
-			symbol = " ? "
-		}
 
-		if location.ID == player.CurrentLocation {
-			symbol = "[P]"
-		}
+			if player != nil && location.ID == player.CurrentLocation {
+				switch symbol {
+				case "[E]":
+					symbol = "{E}"
+				case "[X]":
+					symbol = "{X}"
+				case "[R]":
+					symbol = "{R}"
+				case "[C]":
+					symbol = "{C}"
+				}
+			}
 
-		mapGrid[mapY][mapX] = symbol
+			grid[y][x] = symbol
+		}
 	}
 
-	var mapBuilder strings.Builder
-	mapBuilder.WriteString(fmt.Sprintf("\n=== %s Map ===\n", dungeon.Name))
-	mapBuilder.WriteString(fmt.Sprintf("Size: %dx%d\n\n", width, height))
-
-	mapBuilder.WriteString("    ")
-	for x := 0; x < width; x++ {
-		mapBuilder.WriteString(fmt.Sprintf("%2d ", x))
+	var result string
+	result += "## Visual Map\n\n```\n"
+	result += "   "
+	for x := 0; x < dungeon.Size.Width; x++ {
+		result += fmt.Sprintf("%d  ", x)
 	}
-	mapBuilder.WriteString("\n")
+	result += "\n"
 
-	for y := 0; y < height; y++ {
-		displayY := height - 1 - y
-		mapBuilder.WriteString(fmt.Sprintf("%2d  ", displayY))
-		for x := 0; x < width; x++ {
-			mapBuilder.WriteString(mapGrid[y][x])
+	for y := 0; y < dungeon.Size.Height; y++ {
+		result += fmt.Sprintf("%d  ", y)
+		for x := 0; x < dungeon.Size.Width; x++ {
+			result += grid[y][x]
 		}
-		mapBuilder.WriteString("\n")
+		result += "\n"
 	}
+	result += "```\n\n"
 
-	mapBuilder.WriteString("\nLegend:\n")
-	mapBuilder.WriteString("[P] - Player Position\n")
-	mapBuilder.WriteString("[E] - Entrance\n")
-	mapBuilder.WriteString("[X] - Exit\n")
-	mapBuilder.WriteString("[M] - Monster\n")
-	mapBuilder.WriteString("[N] - NPC\n")
-	mapBuilder.WriteString("[T] - Treasure\n")
-	mapBuilder.WriteString("[R] - Room\n")
-	mapBuilder.WriteString(" -  - Corridor\n")
+	result += "## Legend\n\n"
+	result += "- [R] = Room [C] = Corridor [E] = Entrance [X] = Exit\n"
+	result += "- {P} = Player position\n\n"
 
-	mapBuilder.WriteString(fmt.Sprintf("\nPlayer: %s at %s [%d, %d]\n",
-		player.Name, player.CurrentLocation,
-		player.Coordinates[0], player.Coordinates[1]))
+	result += fmt.Sprintf("Player: %s\n", player.Name)
+	result += fmt.Sprintf("Current Location: %s Coordinates: [%d, %d]\n", player.CurrentLocation, player.Coordinates[0], player.Coordinates[1])
+	result += fmt.Sprintf("Connections: %v\n", dungeon.Locations[player.CurrentLocation].Connections)
 
-	return mapBuilder.String()
+	return result
+}
+
+func GenerateDungeonMap(dungeon *models.Dungeon, player *models.Player) string {
+	var report string
+	
+	report += "Dungeon: " + dungeon.Name + "\n"
+	report += "Size: " + fmt.Sprintf("%dx%d", dungeon.Size.Width, dungeon.Size.Height) + "\n"
+	report += "Entrance Room: " + dungeon.EntranceRoom + "\n"
+	report += "Exit Room: " + dungeon.ExitRoom + "\n\n"
+
+	report += GenerateVisualMap(dungeon, player) + "\n"
+
+	// report += "=== ROOMS ===\n"
+	// for id, location := range dungeon.Locations {
+	// 	report += fmt.Sprintf("Room ID: %s\n", id)
+	// 	report += fmt.Sprintf("  Type: %s\n", location.Type)
+	// 	report += fmt.Sprintf("  Coordinates: [%d, %d]\n", location.Coordinates[0], location.Coordinates[1])
+	// 	report += fmt.Sprintf("  Description: %s\n", location.Description)
+
+	// 	if len(location.Connections) > 0 {
+	// 		report += "  Connections: "
+	// 		for i, conn := range location.Connections {
+	// 			if i > 0 {
+	// 				report += ", "
+	// 			}
+	// 			report += conn
+	// 		}
+	// 		report += "\n"
+	// 	}
+	// 	report += "\n"
+	// }
+
+	return report
 }
