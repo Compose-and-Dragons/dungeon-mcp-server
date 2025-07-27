@@ -1,0 +1,149 @@
+name: "Crystal Caverns"
+description: "A mystical underground cavern system where ancient crystals pulse with magical energy"
+size:
+  width: 6
+  height: 6
+
+entrance_room: "entrance_cave"
+exit_room: "crystal_throne"
+
+locations:
+  entrance_cave:
+    id: "entrance_cave"
+    type: "room"
+    coordinates: [2, 5]
+    description: "A natural cave entrance with damp stone walls and the sound of dripping water echoing from deeper chambers"
+    connections: ["corridor_1"]
+    npc:
+      type: "sage"
+      name: "Keeper Aldric"
+      description: "An ancient dwarf who has guarded the entrance for decades, his beard white with crystal dust"
+    items:
+      - type: "healing_potion"
+        healing_level: 30
+        quantity: 2
+
+  crystal_workshop:
+    id: "crystal_workshop"
+    type: "room"
+    coordinates: [2, 4]
+    description: "An abandoned workshop with crystal-cutting tools scattered about. Unfinished gems sparkle in the dim light"
+    connections: ["corridor_1", "corridor_2"]
+    treasure:
+      type: "gem"
+      value: 120
+    items:
+      - type: "healing_potion"
+        healing_level: 25
+        quantity: 1
+
+  corridor_1:
+    id: "corridor_1" 
+    type: "corridor"
+    coordinates: [3, 4]
+    description: "A narrow passage carved through solid rock, with small crystal formations beginning to appear on the walls"
+    connections: ["entrance_cave", "crystal_workshop", "armory"]
+
+  armory:
+    id: "armory"
+    type: "room"
+    coordinates: [4, 4]
+    description: "An old armory with crystal-reinforced weapons and armor scattered about"
+    connections: ["corridor_1", "corridor_3"]
+    treasure:
+      type: "artifact"
+      value: 200
+
+  corridor_2:
+    id: "corridor_2"
+    type: "corridor"
+    coordinates: [2, 3]
+    description: "A winding passage that descends deeper into the crystal caverns"
+    connections: ["crystal_workshop", "merchants_den"]
+
+  corridor_3:
+    id: "corridor_3"
+    type: "corridor"
+    coordinates: [4, 3]
+    description: "A passage with embedded crystal veins that pulse with magical energy"
+    connections: ["armory", "guardian_chamber"]
+
+  merchants_den:
+    id: "merchants_den"
+    type: "room"
+    coordinates: [2, 2]
+    description: "A cozy chamber that serves as a trading post, with crystal lanterns providing warm light and shelves of rare goods"
+    connections: ["corridor_2", "corridor_4"]
+    npc:
+      type: "merchant"
+      name: "Gemma Brightstone"
+      description: "A cheerful halfling trader who specializes in crystal artifacts and magical components"
+    treasure:
+      type: "gold"
+      value: 180
+    items:
+      - type: "healing_potion"
+        healing_level: 60
+        quantity: 3
+
+  corridor_4:
+    id: "corridor_4"
+    type: "corridor"
+    coordinates: [3, 2]
+    description: "A passage that slopes upward, with crystal formations becoming more elaborate and beautiful"
+    connections: ["merchants_den", "guardian_chamber"]
+
+  guardian_chamber:
+    id: "guardian_chamber"
+    type: "room"
+    coordinates: [4, 2]
+    description: "A circular chamber with a domed ceiling covered in crystal formations. The air hums with magical energy"
+    connections: ["corridor_3", "corridor_4", "corridor_5"]
+    monster:
+      type: "orc"
+      name: "Crystalback Bruiser"
+      description: "A massive orc whose hide has partially crystallized from years in these caverns, wielding a crystal-tipped club"
+      difficulty_level: 5
+      hit_points: 55
+      treasure:
+        type: "artifact"
+        value: 250
+
+  corridor_5:
+    id: "corridor_5"
+    type: "corridor"
+    coordinates: [5, 2]
+    description: "A grand corridor lined with towering crystal pillars that pulse with soft blue light"
+    connections: ["guardian_chamber", "goblin_nest"]
+
+  goblin_nest:
+    id: "goblin_nest"
+    type: "room"
+    coordinates: [5, 1]
+    description: "A chaotic chamber where goblins have made their nest among broken crystal formations and scattered debris"
+    connections: ["corridor_5", "crystal_throne"]
+    monster:
+      type: "goblin"
+      name: "Sparkfinger"
+      description: "A cunning goblin whose fingers shimmer with crystal dust, quick with both blade and wit"
+      difficulty_level: 3
+      hit_points: 30
+      treasure:
+        type: "gold"
+        value: 75
+
+  crystal_throne:
+    id: "crystal_throne"
+    type: "room"
+    coordinates: [5, 0]
+    description: "The heart of the caverns, dominated by a massive crystal formation resembling a throne. Ancient magic radiates from this sacred place"
+    connections: ["goblin_nest"]
+    monster:
+      type: "dragon"
+      name: "Prismwing the Radiant"
+      description: "A young crystal dragon whose scales reflect rainbow light, guardian of the ancient crystal throne"
+      difficulty_level: 8
+      hit_points: 75
+      treasure:
+        type: "artifact"
+        value: 650

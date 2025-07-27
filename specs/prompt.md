@@ -1,0 +1,1 @@
+Using the system instructions in specs.en.md and the dungeon map in dungeon.plan.md, generate a yaml file that represents the dungeon. Be careful and stay focus to check that locations are properly positioned according to the map layout and connected appropriately.

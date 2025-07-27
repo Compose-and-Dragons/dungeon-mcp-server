@@ -1,0 +1,19 @@
+name: Bob Morane
+avatar: "🤓"
+type: warrior
+level: 1
+hit_points: 100
+max_hit_points: 100
+attack_power: 15
+defense: 10
+experience: 0
+gold: 50
+current_location: entrance_cave
+coordinates:
+    - 2
+    - 5
+inventory:
+    - type: potion
+      healing_level: 25
+      quantity: 2
+status: healthy
