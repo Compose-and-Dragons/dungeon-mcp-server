@@ -21,7 +21,8 @@ DMR_BASE_URL=${MODEL_RUNNER_BASE_URL:-http://localhost:12434/engines/llama.cpp/v
 CHAT_MODEL=${MODEL_RUNNER_CHAT_MODEL:-"hf.co/menlo/lucy-128k-gguf:q4_k_m"}
 TOOLS_MODEL=${MODEL_RUNNER_TOOLS_MODEL:-"hf.co/menlo/lucy-128k-gguf:q4_k_m"}
 
-MCP_SERVER=${MCP_SERVER:-"http://localhost:9090"}
+#MCP_SERVER=${MCP_SERVER:-"http://localhost:9090"}
+MCP_SERVER=${MCP_SERVER:-"http://localhost:9011"} # MCP Gateway
 
 # === Get the list of tools from the MCP server ===
 MCP_TOOLS=$(get_mcp_http_tools "$MCP_SERVER")

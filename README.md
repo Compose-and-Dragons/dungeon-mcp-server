@@ -172,7 +172,7 @@ Get the current status and information of the player.
 ```
 
 ### 6. display_dungeon_map
-> To be implemented
+
 Display an ASCII map of the entire dungeon showing rooms, corridors, and the player's current position.
 
 **Parameters:** None

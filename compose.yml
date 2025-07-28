@@ -1,0 +1,45 @@
+services:
+
+  # MCP_HOST=http://mcp-gateway:9011/mcp 
+  mcp-gateway:
+    image: docker/mcp-gateway:latest
+    command:
+      - --port=9011
+      - --transport=streaming
+      - --verbose
+      - --catalog=/mcp/catalog.yaml
+      - --servers=dungeon
+    ports:
+      - 9011:9011 # only for testing with an external MCP client
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./catalog.yaml:/mcp/catalog.yaml
+
+    depends_on:
+      dungeon-mcp-server:
+        condition: service_healthy
+
+  dungeon-mcp-server:
+    build:
+      context: .
+      platforms:
+        #- "linux/amd64"
+        - "linux/arm64"
+      dockerfile: Dockerfile
+    image: dungeon-mcp-server:demo
+    ports:
+      - 9090:9090
+    volumes:
+      - ./crystal_caverns.yaml:/app/data/dungeon.yaml:ro
+      - ./player_bob_morane.yaml:/app/data/player.yaml:ro
+    command: 
+      - --dungeon-file=/app/data/dungeon.yaml
+      - --player-file=/app/data/player.yaml
+      - --port=9090
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9090/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+

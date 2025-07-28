@@ -1,0 +1,6 @@
+registry:
+  dungeon:
+    remote:
+      url: "http://dungeon-mcp-server:9090/mcp"
+      transport_type: http
+
