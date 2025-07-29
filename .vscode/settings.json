@@ -9,5 +9,5 @@
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 1000,
     "editor.fontFamily": "Menlo",
-    "window.zoomLevel": 0.5,
+    "window.zoomLevel": 1.5,
 }

@@ -93,6 +93,20 @@ func runServer(cmd *cobra.Command, args []string) error {
 	)
 	s.AddTool(sayHello, handlers.SayHelloHandler)
 
+	rollDices := mcp.NewTool("rool_dices",
+		mcp.WithDescription("Roll some dices"),
+		mcp.WithNumber("nb_dices",
+			mcp.Required(),
+			mcp.Description("Number of dices to roll"),
+		),
+		mcp.WithNumber("nb_sides",
+			mcp.Required(),
+			mcp.Description("Number of sides of the dices"),
+		),
+	)
+
+	s.AddTool(rollDices, handlers.RollDicesHandler)
+
 	getRoomDetails := mcp.NewTool("get_room_details_by_name",
 		mcp.WithDescription(`Get detailed information about a room by its name/ID.`),
 		mcp.WithString("room_name",
@@ -178,4 +192,3 @@ func main() {
 		os.Exit(1)
 	}
 }
-
